@@ -26,7 +26,7 @@ io.on('connection', function (client) {
 
   client.on('messages', function (data) { 
     log(["on('messages')",data]);  
-    //facebookMain([data]);    
+    facebookMain([data]);    
     client.emit('broad', data);
     //client.broadcast.emit('broad', data);
   });
