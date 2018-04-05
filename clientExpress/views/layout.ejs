@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>It's <%=title%></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/javascripts/global.js"></script>
+    
+    <% include ../views/partials/head %>    
+   
+    <%-stylesheets%>
+</head>
+<body class="container">
+
+<header>
+    <% include ../views/partials/header %>
+</header>
+
+<main>
+    <%- body %>
+</main>
+
+<footer>
+    <% include ../views/partials/footer %>
+</footer>
+
+</body>
+<%-scripts%>
+</html>
