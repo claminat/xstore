@@ -69,7 +69,7 @@ function getAccessToken() {
                                     var byAccessToken = By.xpath("//input[contains(@class, '_58al') and contains(@placeholder, 'Paste in an existing Access Token or click \"Get User Access Token\"')]");
                                     driver.findElement(byAccessToken).getAttribute("value").then(function (accessToken) {
                                         if (accessToken) {
-                                            access_token=accessToken;
+                                            access_token = accessToken;
                                             driver.quit();
                                             resolve(accessToken);
                                         } else {
@@ -87,14 +87,15 @@ function getAccessToken() {
 }
 
 function facebookPost(access_token, sourcePath, sourceUrl, caption) {
-    log('facebookPost')
-    FB.setAccessToken(access_token);  
-        if (sourceUrl) { 
+    return new Promise(function (resolve, reject) {
+        log('facebookPost')
+        FB.setAccessToken(access_token);
+        if (sourceUrl) {
             log('sourceUrl')
-                  
+
             request.get(sourceUrl, function (err, res, photoBuffer) {
                 //var filename = sourceUrl.split('/').slice(-1).pop();log(['filename', filename]);
-               
+
                 FB.api('me/photos', 'post', {
                     source: {
                         value: photoBuffer,
@@ -109,7 +110,12 @@ function facebookPost(access_token, sourcePath, sourceUrl, caption) {
                         log(!res ? 'error occurred' : res.error, 'r');
                         return;
                     }
-                    log(['Post Id: ', res.post_id], 'y');
+                    var postId = res.post_id;
+                    log(['Post Id: ', postId], 'y');
+                    if (postId)
+                        resolve(postId);
+                    else
+                        reject('Ăn lồn con đĩ');
                 });
             });
         }
@@ -121,10 +127,19 @@ function facebookPost(access_token, sourcePath, sourceUrl, caption) {
                     log(!res ? 'error occurred' : res.error);
                     return;
                 }
-                log(['Post Id: ', res.post_id],'y');
+                var postId = res.post_id;
+                log(['Post Id: ', postId], 'y');
+                if (postId)
+                    resolve(postId);
+                else
+                    reject('Ăn lồn con đĩ');
             });
         }
+    })
 }
+
+
+
 
 function checkAccessToken(access_token) {
     log('checkAccessToken')
@@ -155,12 +170,11 @@ function checkAccessToken(access_token) {
     })
 }
 
+
+
 function facebookMain(facebookObject) {
-    log('facebookMain')
-
-
-
-    //arrayUrl.forEach(function (sourceUrl) {
+    return new Promise(function (resolve, reject) {
+        log('facebookMain')
         //var sourceUrl = 'https://instagram.fsgn2-1.fna.fbcdn.net/vp/ecc06bea0c32017a778c5ee3c2317461/5B51CC62/t51.2885-15/e35/29401233_879225955590463_1570266066624446464_n.jpg';
         log(['facebookObject', facebookObject]);
         log(['sourceUrl', facebookObject.srcUrl]);
@@ -168,35 +182,51 @@ function facebookMain(facebookObject) {
         //access_token = '';
         //access_token = 'EAACEdEose0cBAOwtUIMAyqmA5yXdOjt4E9Dn8kJFb2ypNN6feiPTXKMNXjqdxslutqzlegvDifapsNGONDPT0gTIXZAiFpkbZB6iJbC56pDhMZBJv4DxxZCxqyNSmZCrue8Q66DuWjQI1FPeTw2oARhQAgaLwDOgZBgPDTuzioCVHsqZC6wROklspDq0UUAMW5aRCsqToWe5gZDZD';
         var sourcePath = '';
-        var sourceUrl = facebookObject.srcUrl;log(['sourceUrl', sourceUrl]);
-        var caption = facebookObject.caption;log(['caption', caption]);
-                
-        log('access_token',access_token)
+        var sourceUrl = facebookObject.srcUrl; log(['sourceUrl', sourceUrl]);
+        var caption = facebookObject.caption; log(['caption', caption]);
+
+        log('access_token', access_token)
         if (access_token) {
             log('if');
             checkAccessToken(access_token).then((isValid) => {
                 console.log('Check isvalid access_token');
                 if (isValid) {
                     log(['access_token is valid'])
-                    facebookPost(access_token, sourcePath, sourceUrl, caption);
+                    facebookPost(access_token, sourcePath, sourceUrl, caption).then((postId => {
+                        if (postId)
+                            resolve(postId);
+                        else
+                            reject('Ăn lồn con đĩ');
+                    }));
                 }
                 else {
                     log('if else');
                     getAccessToken().then(function (accessToken) {
                         access_token = accessToken;
                         log(access_token);
-                        facebookPost(access_token, sourcePath, sourceUrl, caption);
+                        facebookPost(access_token, sourcePath, sourceUrl, caption).then((postId => {
+                            if (postId)
+                                resolve(postId);
+                            else
+                                reject('Ăn lồn con đĩ');
+                        }));
                     });
                 }
-            }
-            );           
+            });
         } else {
             log('else');
-            getAccessToken().then(function (access_token) {                
-                facebookPost(access_token, sourcePath, sourceUrl, caption);
+            getAccessToken().then(function (access_token) {
+                facebookPost(access_token, sourcePath, sourceUrl, caption).then((postId => {
+                    if (postId)
+                        resolve(postId);
+                    else
+                        reject('Ăn lồn con đĩ');
+                }));
             });
         }
-    //});
+    })
+
+
 }
 
 module.exports.facebookMain = facebookMain;

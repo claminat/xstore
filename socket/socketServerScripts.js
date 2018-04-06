@@ -20,16 +20,29 @@ io.on('connection', function (client) {
   console.log('✅  Client connected...');
 
   client.on('join', function (data) {
-    log(['Server recieved: ',data]);
+    log(['Server recieved: ', data]);
     client.emit('broad', 'Hello from server');
+
   });
 
-  client.on('messages', function (data) { 
-    var facebookObject=JSON.stringify(data);
-    log(["on('messages')",facebookObject]);  
-    facebookMain(data);    
-    client.emit('broad',facebookObject );
+  client.on('messages', function (data) {
+    var facebookObject = JSON.stringify(data);
+    log(["on('messages')", facebookObject]);
+    client.emit('broad', facebookObject);
     //client.broadcast.emit('broad', data);
+  });
+
+  client.on('facebook', function (data) {
+    var facebookObject = JSON.stringify(data);
+    log(["on('facebook')", facebookObject]);
+    
+    facebookMain(data)
+      .then(postId => {
+        if (postId) {
+          log(["facebookMain(postId)", postId]);
+          client.emit('notification', postId);
+        }
+      })
   });
 
   client.on('disconnect', function () {
