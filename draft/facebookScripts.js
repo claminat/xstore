@@ -2,16 +2,16 @@ console.log('facebookScripts...!');
 
 var request = require('request').defaults({ encoding: null });
 const fs = require('fs');
-const { log } = require('../javascripts//log');
+const { log } = require('../javascripts/log');
 
 //require selenium-webdriver
 var webdriver = require('selenium-webdriver');
 const { Builder, By, Key, until } = require('selenium-webdriver');
 //require fb
 var FB = require('fb');
-var options = FB.options();
-var timeout = FB.options('timeout');
-var fb = new FB.Facebook(options);
+// var options = FB.options();
+// var timeout = FB.options('timeout');
+var fb = new FB.Facebook();
 //
 
 const chrome = require('selenium-webdriver/chrome');
@@ -19,9 +19,15 @@ const firefox = require('selenium-webdriver/firefox');
 require('chromedriver');
 
 //options
-options = new chrome.Options();
+var options = new chrome.Options();
 options.addArguments('headless'); // note: without dashes
-options.addArguments('disable-gpu')
+options.addArguments('disable-gpu');
+options.addArguments('no-sandbox');
+options.addArguments('disable-setuid-sandbox');
+options.addArguments('no-sandbox');
+options.addArguments('allow-insecure-localhost');
+
+
 var path = require('chromedriver').path;
 var service = new chrome.ServiceBuilder(path).build();
 chrome.setDefaultService(service);
@@ -42,6 +48,7 @@ var byCbToken = By.xpath("//div[contains(@class, '_1c2l uiPopover _6a _6b')]");
 
 var access_token;
 function getAccessToken() {
+    log('getAccessToken')
     return new Promise(function (resolve, reject) {
         var driver = new webdriver.Builder().forBrowser('chrome')
             .withCapabilities(webdriver.Capabilities.chrome())
@@ -82,7 +89,6 @@ function getAccessToken() {
 function facebookPost(access_token, sourcePath, sourceUrl, caption) {
     log('facebookPost')
     FB.setAccessToken(access_token);  
-    //return new Promise(function (resolve, reject) {        
         if (sourceUrl) { 
             log('sourceUrl')
                   
@@ -104,7 +110,6 @@ function facebookPost(access_token, sourcePath, sourceUrl, caption) {
                         return;
                     }
                     log(['Post Id: ', res.post_id], 'y');
-                    //resolve(res.post_id);
                 });
             });
         }
@@ -119,7 +124,6 @@ function facebookPost(access_token, sourcePath, sourceUrl, caption) {
                 log(['Post Id: ', res.post_id],'y');
             });
         }
-    //});
 }
 
 function checkAccessToken(access_token) {
@@ -151,20 +155,27 @@ function checkAccessToken(access_token) {
     })
 }
 
-function facebookMain(arrayUrl) {
+function facebookMain(facebookObject) {
     log('facebookMain')
-    arrayUrl.forEach(function (sourceUrl) {
+
+
+
+    //arrayUrl.forEach(function (sourceUrl) {
         //var sourceUrl = 'https://instagram.fsgn2-1.fna.fbcdn.net/vp/ecc06bea0c32017a778c5ee3c2317461/5B51CC62/t51.2885-15/e35/29401233_879225955590463_1570266066624446464_n.jpg';
-        log(['sourceUrl', sourceUrl]);
+        log(['facebookObject', facebookObject]);
+        log(['sourceUrl', facebookObject.srcUrl]);
+        log(['caption', facebookObject.caption]);
         //access_token = '';
         //access_token = 'EAACEdEose0cBAOwtUIMAyqmA5yXdOjt4E9Dn8kJFb2ypNN6feiPTXKMNXjqdxslutqzlegvDifapsNGONDPT0gTIXZAiFpkbZB6iJbC56pDhMZBJv4DxxZCxqyNSmZCrue8Q66DuWjQI1FPeTw2oARhQAgaLwDOgZBgPDTuzioCVHsqZC6wROklspDq0UUAMW5aRCsqToWe5gZDZD';
         var sourcePath = '';
-        var caption = '...';
-        log(access_token)
+        var sourceUrl = facebookObject.srcUrl;log(['sourceUrl', sourceUrl]);
+        var caption = facebookObject.caption;log(['caption', caption]);
+                
+        log('access_token',access_token)
         if (access_token) {
             log('if');
             checkAccessToken(access_token).then((isValid) => {
-                console.log('Will print after about 1 second');
+                console.log('Check isvalid access_token');
                 if (isValid) {
                     log(['access_token is valid'])
                     facebookPost(access_token, sourcePath, sourceUrl, caption);
@@ -178,20 +189,14 @@ function facebookMain(arrayUrl) {
                     });
                 }
             }
-            );
-
-            // checkAccessToken(access_token).then(function (isValid) {
-
-            // })
+            );           
         } else {
             log('else');
-            getAccessToken().then(function (access_token) {
-                log(access_token);
+            getAccessToken().then(function (access_token) {                
                 facebookPost(access_token, sourcePath, sourceUrl, caption);
             });
         }
-    });
+    //});
 }
 
-//facebookMain(arrayUrl);
 module.exports.facebookMain = facebookMain;

@@ -25,9 +25,10 @@ io.on('connection', function (client) {
   });
 
   client.on('messages', function (data) { 
-    log(["on('messages')",data]);  
-    facebookMain([data]);    
-    client.emit('broad', data);
+    var facebookObject=JSON.stringify(data);
+    log(["on('messages')",facebookObject]);  
+    facebookMain(data);    
+    client.emit('broad',facebookObject );
     //client.broadcast.emit('broad', data);
   });
 

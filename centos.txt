@@ -1,0 +1,80 @@
+sudo yum install -y epel-release
+sudo yum install -y chromium
+
+echo 'https://www.seleniumhq.org/download/'
+wget http://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip
+unzip chromedriver_linux64yum   
+
+cat << EOF > /etc/yum.repos.d/google-chrome.repo
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl.google.com/linux/linux_signing_key.pub
+EOF
+yum install google-chrome-stable -y
+yum install google-chrome-beta -y
+yum install google-chrome-unstable -y
+
+
+wget http://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+
+nohup sudo Xvfb :10 -ac
+export DISPLAY=:10
+java -jar vendor/se/selenium-server-standalone/bin/selenium-server-standalone.jar -Dwebdriver.chrome.bin="/usr/bin/google-chrome" -Dwebdriver.chrome.driver="vendor/bin/chromedriver" 
+
+
+/////////////////////////////////////////////////////////////////////////
+yum install java-1.8.0-openjdk.x86_64 -y
+
+sudo yum install net-tools -y
+sudo yum install wget -y
+sudo yum install git -y
+sudo yum install screen -y
+sudo yum install unzip -y
+
+curl --silent --location https://rpm.nodesource.com/setup_9.x | sudo bash -
+sudo yum -y install nodejs
+sudo npm install -g --force nodemon
+
+
+git config --global user.email "xjaofeng@gmail.com"
+git config --global user.name "claminat"
+git config --list
+
+
+
+firewall-cmd --permanent --zone=public --add-port=3002/tcp
+firewall-cmd --permanent --zone=public --add-port=4200/tcp
+firewall-cmd --reload
+
+netstat -plntu
+
+/////////////////////////////////////////////////////////////////////////
+
+
+sudo npm install --save express guid express path serve-favicon morgan cookie-parser body-parser mongodb monk
+sudo npm install --save browserify reactify vinyl-source-stream gulp react react-dom express guid
+sudo npm install concurrently --save
+sudo npm install mongoose cors --save
+sudo npm i axios babel-cli babel-preset-es2015 body-parser express react-bootstrap react-modal react-router-dom --SAVE
+sudo npm install ejs-locals --save
+sudo npm i selenium-webdriver chromedriver fb request fs socket.io jquery http  --save
+
+
+/////////////////////////////////////////////////////////////////////////
+
+git pull origin master
+git clone https://github.com/claminat/xstore
+
+cd xstore
+nodemon socket\socketServerScripts.js
+cd xstore
+nodemon socket\socketClientScripts.js
+
+
+
+///////////////////////////////////////////////////////////
+ Error: Server terminated early with status 127

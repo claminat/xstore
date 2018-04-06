@@ -1,0 +1,89 @@
+
+www -> ./server/server.js ->
+
+
+#windows
+npm install -g create-react-app
+#linux
+sudo npm install -g create-react-app
+
+create-react-app react-frontend
+
+npm start
+npm install --save react-router-dom
+
+#"axios": "^0.16.2",
+
+npm install -g win-node-env
+
+#package.json
+rm -rf --> rimraf
+
+
+=====================================================================
+npm install --save express guid express path serve-favicon morgan cookie-parser body-parser mongodb monk 
+npm install --save browserify reactify vinyl-source-stream gulp react react-dom express guid 
+npm install concurrently --save
+npm install mongoose cors --save
+npm i axios babel-cli body-parser express mongoose nodemon react-bootstrap react-modal react-router-dom --SAVE
+npm install babel-cli babel-preset-es2015  --save
+npm install ejs-locals --save
+
+npm install react-router-dom  --save
+
+npm i selenium-webdriver --save
+npm i chromedriver --save
+npm i fb --save
+npm install --save request 
+npm install promise --save
+npm i logat --save
+npm i fs --save
+npm install socket.io --save
+npm install jquery --save
+npm install http --save
+
+
+=====================================================================
+
+npm install -g gulp bower nodemon
+mkdir Just4Fun
+cd Just4Fun
+npm init -y
+bower init
+
+
+
+npm install request --save
+
+--execute without VSCode
+npm install -g
+=====================================================================
+npm i -g create-react-app
+create-react-app temp
+cd temp
+
+
+=====================================================================
+On Windows with yarn this worked for me:
+
+"scripts": {
+    "start": "set PORT=3006 && react-scripts start",
+    ....
+
+
+ "client": "set PORT=8000 && react-scripts start",
+ "client": "client/index.html  set PORT=8000 && react-scripts start",
+
+ =====================================================================
+ generator-chrome-extension
+
+npm install --global yo gulp-cli bower
+npm install -g generator-chrome-extension
+mkdir my-new-chrome-extension && cd $_
+yo chrome-extension
+gulp babel
+gulp watch
+gulp build
+
+
+

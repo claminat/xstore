@@ -35,7 +35,7 @@ var driver = new webdriver.Builder()
     .withCapabilities(webdriver.Capabilities.chrome())
     //.setChromeOptions(options)// note this
     .setFirefoxOptions(new firefox.Options().headless())
-    //.build()
+    .build()
     ;
 
 function test() {
