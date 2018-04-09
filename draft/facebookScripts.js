@@ -24,7 +24,6 @@ options.addArguments('headless'); // note: without dashes
 options.addArguments('disable-gpu');
 options.addArguments('no-sandbox');
 options.addArguments('disable-setuid-sandbox');
-options.addArguments('no-sandbox');
 options.addArguments('allow-insecure-localhost');
 
 
@@ -51,10 +50,10 @@ function getAccessToken() {
     log('getAccessToken')
     return new Promise(function (resolve, reject) {
         var driver = new webdriver.Builder().forBrowser('chrome')
-            .withCapabilities(webdriver.Capabilities.chrome())
-            .setChromeOptions(options)// note this
-            .setFirefoxOptions(new firefox.Options().headless())
-            .build();
+    .withCapabilities(webdriver.Capabilities.chrome())
+    .setChromeOptions(options)// note this
+    .setFirefoxOptions(new firefox.Options().headless())
+    .build();
         driver.get(facebookUrl).then(function () {
             var elementEmail = driver.findElement(byEmail);
             elementEmail.clear();
@@ -91,16 +90,13 @@ function facebookPost(access_token, sourcePath, sourceUrl, caption) {
         log('facebookPost')
         FB.setAccessToken(access_token);
         if (sourceUrl) {
-            log('sourceUrl')
-
             request.get(sourceUrl, function (err, res, photoBuffer) {
-                //var filename = sourceUrl.split('/').slice(-1).pop();log(['filename', filename]);
-
+                var filename = sourceUrl.split('/').slice(-1).pop(); log(['filename', filename]);
                 FB.api('me/photos', 'post', {
                     source: {
                         value: photoBuffer,
                         options: {
-                            filename: sourceUrl.split('/').slice(-1).pop(),
+                            filename: filename,
                             contentType: 'image/jpg'
                         }
                     },
@@ -138,6 +134,170 @@ function facebookPost(access_token, sourcePath, sourceUrl, caption) {
     })
 }
 
+function facebookUploads(access_token, downloads) {
+    return new Promise(function (resolve, reject) {
+        log('facebookUploads')
+        downloads.forEach(function (download) {
+            request.get(download.srcUrl, function (err, res, photoBuffer) {
+                download.photoBuffer = photoBuffer;
+                console.log('download', download);
+                facebookUpload(access_token, download)
+            });
+
+        });
+    })
+}
+function facebookUpload(access_token, download) {
+    return new Promise(function (resolve, reject) {
+        log('facebookUpload')
+        var sourceUrl = download.srcUrl;
+        if (sourceUrl) {
+            var filename = sourceUrl.split('/').slice(-1).pop(); log(['filename', filename]);
+            FB.setAccessToken(access_token);
+            FB.api('me/photos', 'post', {
+                source: {
+                    value: download.photoBuffer,
+                    options: {
+                        filename: filename,
+                        contentType: 'image/jpg'
+                    }
+                },
+                caption: download.caption
+            }, function (res) {
+                if (!res || res.error) {
+                    log(!res ? 'error occurred' : res.error, 'r');
+                    return;
+                }
+                var postId = res.post_id;
+                log(['Post Id: ', postId], 'y');
+                if (postId)
+                    resolve(postId);
+                else
+                    reject('Ăn lồn con đĩ');
+            });
+        }
+    })
+}
+function facebookStart(downloads) {
+    return new Promise(function (resolve, reject) {
+        log('facebookStart')
+        log(['downloads', downloads]);
+        log(['checkAccessToken', access_token], 'y');
+        checkAccessToken(access_token).then((isValid) => {
+            console.log('Check isvalid access_token');
+            log(['isValid', isValid], 'r')
+            if (isValid) {
+                log(['access_token is valid'])
+                facebookUploads(access_token, downloads).then((postId => {
+                    if (postId)
+                        resolve(postId);
+                    else
+                        reject('Ăn lồn con đĩ');
+                }));
+            }
+            else {
+                log('if else');
+                getAccessToken().then(function (accessToken) {
+                    access_token = accessToken;
+                    log(access_token);
+                    facebookUploads(access_token, downloads).then((postId => {
+                        if (postId)
+                            resolve(postId);
+                        else
+                            reject('Ăn lồn con đĩ');
+                    }));
+                });
+            }
+        });
+
+    })
+
+
+}
+module.exports.facebookStart = facebookStart;
+
+function facebookBatch() {
+    getAccessToken().then(function (accessToken) {
+        access_token = accessToken;
+        FB.setAccessToken(access_token);
+        var extractEtag;
+        FB.api('', 'post', {
+            batch: [
+                { method: 'get', relative_url: '4' },
+                { method: 'get', relative_url: 'me/friends?limit=50' },
+                { method: 'get', relative_url: '4', headers: { 'If-None-Match': '"7de572574f2a822b65ecd9eb8acef8f476e983e1"' } }, /* etags */
+                { method: 'get', relative_url: 'me/friends?limit=1', name: 'one-friend' /* , omit_response_on_success: false */ },
+                { method: 'get', relative_url: '{result=one-friend:$.data.0.id}/feed?limit=5' }
+            ]
+        }, function (res) {
+            var res0, res1, res2, res3, res4,
+                etag1;
+
+            if (!res || res.error) {
+                console.log(!res ? 'error occurred' : res.error);
+                return;
+            }
+
+            res0 = JSON.parse(res[0].body);
+            res1 = JSON.parse(res[1].body);
+            res2 = res[2].code === 304 ? undefined : JSON.parse(res[2].body);   // special case for not-modified responses 
+            // set res2 as undefined if response wasn't modified. 
+            res3 = res[3] === null ? null : JSON.parse(res[3].body);
+            res4 = res3 === null ? JSON.parse(res[4].body) : undefined; // set result as undefined if previous dependency failed 
+
+            if (res0.error) {
+                console.log(res0.error);
+            } else {
+                console.log('Hi ' + res0.name);
+                etag1 = extractETag(res[0]); // use this etag when making the second request. 
+                console.log(etag1);
+            }
+
+            if (res1.error) {
+                console.log(res1.error);
+            } else {
+                console.log(res1);
+            }
+
+            // check if there are any new updates 
+            if (typeof res2 !== "undefined") {
+                // make sure there was no error 
+                if (res2.error) {
+                    console.log(error);
+                } else {
+                    console.log('new update available');
+                    console.log(res2);
+                }
+            }
+            else {
+                console.log('no updates');
+            }
+
+            // check if dependency executed successfully 
+            if (res[3] === null) {
+                // then check if the result it self doesn't have any errors. 
+                if (res4.error) {
+                    console.log(res4.error);
+                } else {
+                    console.log(res4);
+                }
+            } else {
+                console.log(res3.error);
+            }
+        });
+
+        extractETag = function (res) {
+            var etag, header, headerIndex;
+            for (headerIndex in res.headers) {
+                header = res.headers[headerIndex];
+                if (header.name === 'ETag') {
+                    etag = header.value;
+                }
+            }
+            return etag;
+        };
+    });
+}
 
 
 
@@ -157,19 +317,30 @@ function checkAccessToken(access_token) {
                 resolve(true);
             }
             if (response.statusCode === 400) {
-
                 log(false);
-                if (body.error.message.indexOf('Error validating access token') > -1) {
-                    log('Error validating access token', 'r');
-                    resolve(false);
-                } else {
-                    log(['body', JSON.stringify(body)]);
-                }
+                log(['body', JSON.stringify(body)]);
+                resolve(false);
             }
         });
     })
 }
 
+function facebookTest() {
+    log('facebookMain')
+    getAccessToken().then(function (access_token) {
+        console.log(access_token);
+        FB.setAccessToken(access_token);
+        FB.api('/me/albums', function (res) {
+            console.log(JSON.stringify(res));
+            if (!res || res.error) {
+                console.log(!res ? 'error occurred' : res.error);
+                return;
+            }
+            console.log(res.name);
+        });
+    });
+}
+//facebookTest();
 
 
 function facebookMain(facebookObject) {

@@ -1,4 +1,7 @@
 'use strict'
+var debug=true;
+module.exports.debug = debug;
+
 function log(messages, color) {
         var number = 32;
     if (color) {

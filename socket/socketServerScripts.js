@@ -1,8 +1,8 @@
 //https://github.com/socketio/socket.io'
 
 
-const { log } = require('../javascripts/log');
-const { facebookMain } = require('../draft/facebookScripts');
+const { log, debug } = require('../javascripts/log');
+const { facebookMain, facebookStart } = require('../draft/facebookScripts');
 var express = require('express');
 var app = express();
 // Socket connection
@@ -33,15 +33,27 @@ io.on('connection', function (client) {
   });
 
   client.on('facebook', function (data) {
-    var facebookObject = JSON.stringify(data);
-    log(["on('facebook')", facebookObject]);
-    
-    facebookMain(data)
+    if (debug) {
+      log(["data", data]);
+      var facebookObject = JSON.stringify(data);
+      log(["on('facebook')", facebookObject]);
+    }
+
+    // facebookMain(data)
+    //   .then(postId => {
+    //     if (postId) {
+    //       log(["facebookMain(postId)", postId]);
+    //       client.emit('notification', postId);
+    //     }
+    //   })
+    if (debug) {
+      data.forEach(element => {
+        log([JSON.stringify(element)], 'y')
+      });
+    }
+    facebookStart(data)
       .then(postId => {
-        if (postId) {
-          log(["facebookMain(postId)", postId]);
-          client.emit('notification', postId);
-        }
+
       })
   });
 
