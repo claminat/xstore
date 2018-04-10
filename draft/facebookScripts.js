@@ -3,6 +3,7 @@ console.log('facebookScripts...!');
 var request = require('request').defaults({ encoding: null });
 const fs = require('fs');
 const { log,debug } = require('../javascripts/log');
+var caption = require('caption')
 
 //require selenium-webdriver
 var webdriver = require('selenium-webdriver');
