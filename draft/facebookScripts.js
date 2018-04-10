@@ -2,7 +2,7 @@ console.log('facebookScripts...!');
 
 var request = require('request').defaults({ encoding: null });
 const fs = require('fs');
-const { log } = require('../javascripts/log');
+const { log,debug } = require('../javascripts/log');
 
 //require selenium-webdriver
 var webdriver = require('selenium-webdriver');
@@ -46,7 +46,7 @@ var byPassword = By.id("pass");
 var byCbToken = By.xpath("//div[contains(@class, '_1c2l uiPopover _6a _6b')]");
 
 var access_token;
-function getAccessToken() {
+function getAccessToken() {    
     log('getAccessToken')
     return new Promise(function (resolve, reject) {
         var driver = new webdriver.Builder().forBrowser('chrome')
