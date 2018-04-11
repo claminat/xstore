@@ -1,10 +1,10 @@
 var server = require('../server/server');
 var port = 8001
 server.listen(port, function () {    
-    //console.log('Server is running on Port: ',port);
-    console.info('✅  Server is listening in ' + port)
-    console.info('❤️  ☘  🍺  🥇  🐟  💪  🐰  🐉  👽  ☠  💣  💎  🔋  ⚔  🔫 🙏 ')
-    console.info('🌎  XStore: http://localhost:%s', port)
+    //console.log('Server is running on Port: ',port);   
+    console.info('✅  ☘  🍺  🥇  🐟  💪  🐰  🐉  👽  ☠  💣  💎  🔋  ⚔  🔫  🙏 ')
+    console.info('❤️  Server is listening in ' + port)
+    console.info('🌎  XStore (R) ==>   Go to http://localhost:%s', port)
 });
 
 var clientExpress= require('../clientExpress/client');

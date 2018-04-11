@@ -7,8 +7,15 @@ var mongoose = require('mongoose');
 var cors = require('cors');
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../client'));
-app.use(express.static(path.join(__dirname, '../client')));
+
+// //client
+// app.set('views', path.join(__dirname, '../client'));
+// app.use(express.static(path.join(__dirname, '../client')));
+//blog
+app.set('views', path.join(__dirname, '../blog'));
+app.use(express.static(path.join(__dirname, '../blog')));
+
+
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 
@@ -26,6 +33,7 @@ mongoose.connect('mongodb://localhost:27017/nodeweb')
 var router = require('./routes/routes.js');
 var itemRouter = require('./routes/itemRouter.js');
 var userRouter = require('./routes/userRouter.js');
+var testRouter = require('./routes/testRouter');
 
 
 // Use middlewares to set view engine and post json data to the server
@@ -34,5 +42,6 @@ app.use(cors());
 app.use('/', router);
 app.use('/item', itemRouter);
 app.use('/user', userRouter);
+app.use('/test', testRouter);
 
 module.exports = app;

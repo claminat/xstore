@@ -88,7 +88,7 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
   //console.info('==> ✅  Server is listening in ' + process.env.NODE_ENV + ' mode')
-  console.info('XStore ==> 🌎  Go to http://localhost:%s', app.get('port'))
+  console.info('🌎  XStore (E) ==>   Go to http://localhost:%s', app.get('port'))
 }
 
 

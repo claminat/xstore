@@ -11,12 +11,12 @@ router.get('/data', function (req, res) {
     }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             body.forEach(element => {
-                var user = new User(element);
-                user.save().then(item => {
-                    console.log("Item added successfully");
-                }).catch(err => {
-                    console.log("Unable to save to database", err);
-                });
+                // var user = new User(element);
+                // user.save().then(item => {
+                //     console.log("Item added successfully");
+                // }).catch(err => {
+                //     console.log("Unable to save to database", err);
+                // });
                 console.log('element', element);
                 console.log('-----------------------------------------');
             });
