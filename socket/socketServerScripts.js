@@ -2,7 +2,7 @@
 
 
 const { log, debug } = require('../javascripts/log');
-const { facebookMain, facebookStart } = require('../draft/facebookScripts');
+const { facebookMain, facebookStart } = require('../javascripts/socical/facebookScripts');
 var express = require('express');
 var app = express();
 // Socket connection

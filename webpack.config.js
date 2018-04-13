@@ -3,14 +3,14 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-    entry: './client/index.js',
+    // entry: './client/index.js',
     // output: {
     //     path: path.join(__dirname, 'client'),
     //     filename: 'bundle.js'
     // },
-    entry: './blog/index.js',
+    entry: './test/index.js',
     output: {
-        path: path.join(__dirname, 'blog'),
+        path: path.join(__dirname, 'test'),
         filename: 'bundle.js'
     },
     module: {
