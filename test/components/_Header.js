@@ -47,7 +47,7 @@ export default class Header extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">reactstrap</NavbarBrand>
+          <NavbarBrand href="/">V3SI</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -57,11 +57,17 @@ export default class Header extends React.Component {
               <NavItem>
                 <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink href="/#/tables">Tables</NavLink>
+              </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   Options
                 </DropdownToggle>
                 <DropdownMenu right>
+                  <DropdownItem>
+                    <NavLink href="/tables">Tables</NavLink>
+                  </DropdownItem>
                   <DropdownItem>
                     Option 1
                   </DropdownItem>
