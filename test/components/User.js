@@ -11,6 +11,11 @@ import axios from 'axios';
 import { debug } from 'util';
 const API = 'http://localhost:8001/user';
 
+const columns = [
+    {Header: 'Name',accessor: 'name'},
+    {Header: 'Username',id: 'username',accessor: d => d.lastName},
+    {Header: 'Email',accessor: 'Email'}
+]
 
 
 const withFetching = (url) => (Comp) =>
@@ -43,7 +48,7 @@ const withFetching = (url) => (Comp) =>
         }
     }
 
-const User = ({ data, isLoading, error }) => {    
+const User = ({ data, isLoading, error }) => {
     var items = data;
     if (error) {
         return <p>{error.message}</p>;
@@ -54,26 +59,36 @@ const User = ({ data, isLoading, error }) => {
     }
 
     return (
-        <div style={{height:'100%'}}>
+        <div style={{ height: '100%' }}>
             <ReactTable
-                showPageSizeOptions={false}
-                showPagination={false}
-                sortable={false}
                 data={data}
                 columns={columns}
-                pageSize={this.state.pageSize}
-                className='-striped'
-                pivotBy={['firstName', 'lastName']}
-            >
-                {
-                    (state, makeTable, instance) => {
-                        if (this.reactTable === null) {
-                            this.reactTable = instance
-                        }
-                        return (makeTable())
-                    }
-                }
-            </ReactTable>
+                defaultPageSize={15}
+            />
+            <Table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Website</th>
+                </tr>
+            </thead>
+            <tbody>
+                {items.map(item =>
+                    <tr key={item._id}>
+                        <th scope="row">#</th>
+                        <td>{item.name}</td>
+                        <td>{item.username}</td>
+                        <td>{item.email}</td>
+                        <td>{item.phone}</td>
+                        <td>{item.website}</td>
+                    </tr>
+                )}
+            </tbody>
+        </Table>
         </div>
     )
 
