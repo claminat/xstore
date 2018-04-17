@@ -6,6 +6,9 @@ import Home from './Home'
 import Roster from './Roster'
 import Schedule from './Schedule'
 import Tables from './Tables'
+import Fetching from './Fetching'
+import Jobs from './Jobs'
+import User from './User'
 
 const Main = () => ( 
   <Switch>
@@ -13,6 +16,9 @@ const Main = () => (
     <Route path='/roster' component={Roster} />
     <Route path='/schedule' component={Schedule} />
     <Route path='/tables' component={Tables} />
+    <Route path='/Fetching' component={Fetching} />
+    <Route path='/Jobs' component={Jobs} />
+    <Route path='/User' component={User} />
   </Switch>
 )
 

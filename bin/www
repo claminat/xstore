@@ -2,7 +2,7 @@ var server = require('../server/server');
 var port = 8001
 server.listen(port, function () {    
     //console.log('Server is running on Port: ',port);   
-    console.info('✅  ☘  🍺  🥇  🐟  💪  🐰  🐉  👽  ☠  💣  💎  🔋  ⚔  🔫  🙏 ')
+    console.info('✅  ☘  🍺  🥇  🐟  💪  🐰  🐉  👽  ☠  💣  💎  🔋  ⚔  🔫  🙏  📷  🌴  💪  ')
     console.info('❤️  Server is listening in ' + port)
     console.info('🌎  XStore (R) ==>   Go to http://localhost:%s', port)
 });

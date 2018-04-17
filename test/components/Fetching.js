@@ -1,3 +1,6 @@
+//https://github.com/javascript-playground/remote-data-react-screencasts/blob/master/src/Github.js
+//https://github.com/rwieruch/react-data-fetching/blob/master/src/App.js
+
 import React, { Component } from 'react';
 
 const API = 'https://hn.algolia.com/api/v1/search?query=';
@@ -21,6 +24,7 @@ const withFetching = (url) => (Comp) =>
       fetch(url)
         .then(response => {
           if (response.ok) {
+            console.log('response',response.json());
             return response.json();
           } else {
             throw new Error('Something went wrong ...');
@@ -35,8 +39,11 @@ const withFetching = (url) => (Comp) =>
     }
   }
 
-const App = ({ data, isLoading, error }) => {
+const Fetching = ({ data, isLoading, error }) => {
   const hits = data.hits || [];
+  console.log('data',data);
+
+  console.log('data.hits',data.hits);
 
   if (error) {
     return <p>{error.message}</p>;
@@ -57,4 +64,4 @@ const App = ({ data, isLoading, error }) => {
   );
 }
 
-export default withFetching(API + DEFAULT_QUERY)(App);
+export default withFetching(API + DEFAULT_QUERY)(Fetching);
