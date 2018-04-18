@@ -9,6 +9,7 @@ import Tables from './Tables'
 import Fetching from './Fetching'
 import Jobs from './Jobs'
 import User from './User'
+import Photo from './photo/Index'
 
 const Main = () => ( 
   <Switch>
@@ -19,6 +20,7 @@ const Main = () => (
     <Route path='/Fetching' component={Fetching} />
     <Route path='/Jobs' component={Jobs} />
     <Route path='/User' component={User} />
+    <Route path='/photo' component={Photo} />
   </Switch>
 )
 

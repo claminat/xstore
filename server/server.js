@@ -22,7 +22,9 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 
 // Mongoose connection with mongodb
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://localhost:27017/nodeweb')
+
+//mongoose.connect('mongodb://localhost:27017/nodeweb')//localhost
+mongoose.connect('mongodb://202.143.111.30:27017/nodeweb')//202.143.111.30
     .then(() => { // if all is ok we will be here
         console.log('Start');
     })
@@ -34,6 +36,7 @@ mongoose.connect('mongodb://localhost:27017/nodeweb')
 var router = require('./routes/routes.js');
 var itemRouter = require('./routes/itemRouter.js');
 var userRouter = require('./routes/userRouter.js');
+var photoRouter = require('./routes/photoRouter.js');
 var testRouter = require('./routes/testRouter.js');
 
 
@@ -44,5 +47,6 @@ app.use('/', router);
 app.use('/item', itemRouter);
 app.use('/user', userRouter);
 app.use('/test', testRouter);
+app.use('/photo', photoRouter);
 
 module.exports = app;

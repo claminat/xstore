@@ -12,7 +12,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'test'),
         filename: 'bundle.js'
-    },
+    },    
     module: {
         loaders: [{
             test: /.jsx?$/,

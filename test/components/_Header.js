@@ -1,19 +1,4 @@
 'use strict';
-// import React from 'react';
-// const Header = () => (
-//     <header>
-//       <nav>
-//         <ul>
-//           <li><Link to='/' replace >Home</Link></li>
-//           <li><Link to='/roster' replace >Roster</Link></li>
-//           <li><Link to='/schedule' replace >Schedule</Link></li>
-//         </ul>
-//       </nav>
-//     </header>
-//   )
-
-//   export default Header
-
 import React from 'react';
 import {
   Collapse,
@@ -56,6 +41,7 @@ export default class Header extends React.Component {
               <NavItem><NavLink href="/#/tables">Tables</NavLink></NavItem>
               <NavItem><NavLink href="/#/Fetching">Fetching</NavLink></NavItem>
               <NavItem><NavLink href="/#/jobs">jobs</NavLink></NavItem>
+              <NavItem><NavLink href="/#/Photo">Photo</NavLink></NavItem>
               <NavItem><NavLink href="/#/user">user</NavLink></NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>Options</DropdownToggle>

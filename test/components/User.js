@@ -1,6 +1,6 @@
 //https://daveceddia.com/ajax-requests-in-react/
 //http://mediatemple.net/blog/tips/loading-and-using-external-data-in-react/
-https://github.com/reactstrap/reactstrap/tree/master/src
+//https://github.com/reactstrap/reactstrap/tree/master/src
 
 'use strict';
 import React, { Component } from 'react';
@@ -63,8 +63,7 @@ const User = ({ data, isLoading, error }) => {
             <ReactTable
                 data={data}
                 columns={columns}
-                defaultPageSize={15}
-            />
+                defaultPageSize={15} />
             <Table>
             <thead>
                 <tr>
