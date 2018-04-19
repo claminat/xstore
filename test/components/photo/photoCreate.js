@@ -62,7 +62,7 @@ const columns = [
 ]
 
 
-export default class Photo extends Component {
+export default class PhotoCreate extends Component {
     constructor(props) {
         super(props)
         this.props = props
