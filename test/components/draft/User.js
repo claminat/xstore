@@ -6,7 +6,8 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 import ReactTable from 'react-table'
-var helpers = require('../../javascripts/helpers')
+
+var helpers = require('../../../javascripts/helpers')
 import axios from 'axios';
 import { debug } from 'util';
 const API = 'http://localhost:8001/user';

@@ -1,9 +1,9 @@
 import React from 'react'
 
 export default class Repo extends React.Component {
-  // constructor(props) {
-  //   super(props);   
-  // }
+  constructor(props) {
+    super(props);   
+  }
   render() {
     console.log('props',this.props)
     console.log('match',this.props.match)

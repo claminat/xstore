@@ -19,6 +19,7 @@ import { Link } from 'react-router';
 
 import ReactTable from 'react-table'
 
+import Loading from "../Loading";
 
 var helpers = require('../../../javascripts/helpers')
 import { debug } from '../../../javascripts/helpers';
@@ -50,8 +51,8 @@ const columns = [
         accessor: 'id',
         id: 'click-me-button',
         Cell: (row) => {
-            return <div> <NavLink href={"/#/jobs/" + row.original.id}><Button color="primary">primary</Button></NavLink>
-            
+            return <div> 
+                <NavLink href={"/#/admin/photo/" + row.original.id}><Button color="primary">Edit</Button></NavLink>
             </div>
          
 
@@ -62,7 +63,7 @@ const columns = [
 ]
 
 
-export default class PhotoCreate extends Component {
+export default class Index extends Component {
     constructor(props) {
         super(props)
         this.props = props
@@ -91,8 +92,8 @@ export default class PhotoCreate extends Component {
             return <p>{this.state.error.message}</p>;
         }
 
-        if (this.state.loading) {
-            return <p>Loading ...</p>;
+        if (loading) {
+            return  <Loading/>
         }
         return (
             <div style={{ height: '100%' }}>

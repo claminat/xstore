@@ -31,7 +31,7 @@ export default class Header extends React.Component {
   }
   render() {
     return (
-      <div>
+     
         <Navbar color="light" light expand="md">
           <NavbarBrand href="/">V3SI</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
@@ -42,7 +42,7 @@ export default class Header extends React.Component {
               <NavItem><NavLink href="/#/tables">Tables</NavLink></NavItem>
               <NavItem><NavLink href="/#/Fetching">Fetching</NavLink></NavItem>
               <NavItem><NavLink href="/#/jobs">jobs</NavLink></NavItem>
-              <NavItem><NavLink href="/#/admin/Photos">Photo</NavLink></NavItem>
+              <NavItem><NavLink href="/#/admin/photos">Photo</NavLink></NavItem>
               <NavItem><NavLink href="/#/user">user</NavLink></NavItem>
               <NavItem><NavLink href="/#/user">user</NavLink></NavItem>
 
@@ -64,7 +64,7 @@ export default class Header extends React.Component {
             </Nav>
           </Collapse>
         </Navbar>
-      </div>
+      
     );
   }
 }

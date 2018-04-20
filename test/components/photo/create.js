@@ -51,14 +51,18 @@ const columns = [
         id: 'click-me-button',
         Cell: (row) => {
             return <div> <NavLink href={"/#/jobs/" + row.original.id}><Button color="primary">primary</Button></NavLink>
+            
             </div>
+         
+
+
         },
         className: 'text-center', style: {}
     }
 ]
 
 
-export default class PhotoEdit extends Component {
+export default class Create extends Component {
     constructor(props) {
         super(props)
         this.props = props

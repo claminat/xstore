@@ -2,21 +2,21 @@
 import React from 'react';
 import { Switch, Route, Link, HashRouter } from 'react-router-dom'
 
-import Home from './Home'
-import Roster from './Roster'
-import Schedule from './Schedule'
-import Tables from './Tables'
-import Fetching from './Fetching'
-import Jobs from './Jobs'
-import User from './User'
-import About from './About'
+import Home from './draft/Home'
+import Roster from './draft/Roster'
+import Schedule from './draft/Schedule'
+import Tables from './draft/Tables'
+import Fetching from './draft/Fetching'
+import Jobs from './draft/Jobs'
+import User from './draft/User'
+import About from './draft/About'
 
-import Repo from './Repo'
+import Repo from './draft/Repo'
 
 //admin
-import PhotoIndex from './photo/photoIndex'
-import PhotoEdit from './photo/photoEdit'
-import PhotoCreate from './photo/photoCreate'
+import PhotoIndex from './photo/index'
+import PhotoEdit from './photo/edit'
+import PhotoCreate from './photo/create'
 
 
 const Main = () => (
@@ -29,7 +29,6 @@ const Main = () => (
     <Route path='/Jobs' component={Jobs} />
     <Route path='/User' component={User} />
 
-    {/* <Route path="/repos" component={Repos} /> */}
     <Route path="/repos/:userName/:repoName" component={Repo} />
     <Route path="/about" component={About} />
 
@@ -37,6 +36,7 @@ const Main = () => (
     <Route path='/admin/photos' component={PhotoIndex} />
     <Route path='/admin/photo/:id' component={PhotoEdit} />
     <Route path='/admin/photo' component={PhotoCreate} />
+    
   </Switch>
 )
 
