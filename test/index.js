@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import "react-table/react-table.css"
 
 import App from './App';
-//import App from './Load';
+//import Load from './Load';
 
 ReactDOM.render((
     <HashRouter>

@@ -2,8 +2,8 @@
 
 import React from "react";
 import ReactLoading from "react-loading";
-import { Section, Title, Article, Prop, list } from "../../javascripts/generic";
-import "../css/styles.css";
+import { Section, Title, Article, Prop, list } from "../../../javascripts/generic";
+import "../../css/styles.css";
 const pStyle = {
   position: 'absolute'
 };

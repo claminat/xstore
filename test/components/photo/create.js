@@ -26,41 +26,6 @@ import { debug } from '../../../javascripts/helpers';
 import axios from 'axios';
 const API = 'https://jsonplaceholder.typicode.com/photos';
 
-const columns = [
-    {
-        Header: "",
-        Cell: (row) => {
-            return <div><img height={50} src={row.original.url} /></div>
-        },
-        className: 'text-center', style: {}
-    },
-    {
-        Header: 'Title',
-        accessor: 'title',
-
-    },
-    {
-        Header: 'ID',
-        accessor: 'id',
-        id: 'id',
-        className: 'text-center', style: {}
-    },
-    {
-        header: '',
-        accessor: 'id',
-        id: 'click-me-button',
-        Cell: (row) => {
-            return <div> <NavLink href={"/#/jobs/" + row.original.id}><Button color="primary">primary</Button></NavLink>
-            
-            </div>
-         
-
-
-        },
-        className: 'text-center', style: {}
-    }
-]
-
 
 export default class Create extends Component {
     constructor(props) {
@@ -96,19 +61,7 @@ export default class Create extends Component {
         }
         return (
             <div style={{ height: '100%' }}>
-
-                <ReactTable
-                    showPageSizeOptions={true}
-                    showPagination={true}
-                    sortable={true}
-                    data={data}
-                    columns={columns}
-                    defaultPageSize={10}
-                    className="-striped -highlight"
-                    filterable
-                    loading={loading}
-                >
-                </ReactTable>
+               CREATE
             </div>
         )
     }

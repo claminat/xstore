@@ -28,10 +28,17 @@ router.route('/').get(function (req, res) {
     });
 });
 
+
+
+
+
 // Defined edit route
-router.route('/update/:id').get(function (req, res) {
+router.route('/edit/:id').get(function (req, res) {
     var id = req.params.id;
+    console.log('id',id)
     Model.findById(id, function (err, item) {
+        console.log('item',item)
+
         res.json(item);
     });
 });

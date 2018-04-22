@@ -34,7 +34,7 @@ const Main = () => (
 
 
     <Route path='/admin/photos' component={PhotoIndex} />
-    <Route path='/admin/photo/:id' component={PhotoEdit} />
+    <Route path='/admin/photo/:id/:_id' component={PhotoEdit}  />
     <Route path='/admin/photo' component={PhotoCreate} />
     
   </Switch>

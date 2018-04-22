@@ -16,16 +16,16 @@ import {
     DropdownItem
 } from 'reactstrap';
 import { Link } from 'react-router';
-
 import ReactTable from 'react-table'
+import axios from 'axios';
 
-import Loading from "../Loading";
 
 var helpers = require('../../../javascripts/helpers')
 import { debug } from '../../../javascripts/helpers';
+import Loading from "../common/Loading";
 
-import axios from 'axios';
-const API = 'https://jsonplaceholder.typicode.com/photos';
+//const API = 'https://jsonplaceholder.typicode.com/photos';
+const API = '/photo';
 
 const columns = [
     {
@@ -51,12 +51,11 @@ const columns = [
         accessor: 'id',
         id: 'click-me-button',
         Cell: (row) => {
-            return <div> 
-                <NavLink href={"/#/admin/photo/" + row.original.id}><Button color="primary">Edit</Button></NavLink>
+            return <div>
+                <NavLink href={"/#/admin/photo/" + row.original.id+"/"+row.original._id}>
+                    <Button color="warning">Edit</Button>
+                </NavLink>
             </div>
-         
-
-
         },
         className: 'text-center', style: {}
     }
@@ -87,17 +86,18 @@ export default class Index extends Component {
     }
 
     render() {
-        const { data, pages, loading } = this.state;
-        if (this.state.error) {
+        console.log(this.props)     
+
+        const { data, error, loading } = this.state;
+        if (error) {
             return <p>{this.state.error.message}</p>;
         }
 
         if (loading) {
-            return  <Loading/>
+            return <Loading />
         }
         return (
             <div style={{ height: '100%' }}>
-
                 <ReactTable
                     showPageSizeOptions={true}
                     showPagination={true}
@@ -107,8 +107,7 @@ export default class Index extends Component {
                     defaultPageSize={10}
                     className="-striped -highlight"
                     filterable
-                    loading={loading}
-                >
+                    loading={loading}>
                 </ReactTable>
             </div>
         )

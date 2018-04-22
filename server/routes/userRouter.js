@@ -31,6 +31,9 @@ router.route('/').get(function (req, res) {
 // Defined edit route
 router.route('/update/:id').get(function (req, res) {
     var id = req.params.id;
+    console.log('req',req)
+    console.log('req.params',req.params)
+    console.log('id',id)
     Model.findById(id, function (err, item) {
         res.json(item);
     });
