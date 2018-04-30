@@ -7,9 +7,9 @@ server.listen(port, function () {
     console.info('🌎  XStore (R) ==>   Go to http://localhost:%s', port)
 
 
-    var url = 'http://localhost:8001/#/admin/photo/10/5ad6c4e85b3ea01c809b59c9';
-    var start = (process.platform == 'darwin'? 'open': process.platform == 'win32'? 'start': 'xdg-open');
-    require('child_process').exec(start + ' ' + url);
+    //var url = 'http://localhost:8001/#/admin/photo/10/5ad6c4e85b3ea01c809b59c9';
+    //var start = (process.platform == 'darwin'? 'open': process.platform == 'win32'? 'start': 'xdg-open');
+    //require('child_process').exec(start + ' ' + url);
 
 });
 

@@ -28,7 +28,8 @@ router.get('/data', function (req, res) {
 });
 
 router.get('/import', function (req, res) {
-    var url = "https://jsonplaceholder.typicode.com/photos";
+    //var url = "https://jsonplaceholder.typicode.com/photos";
+    var url = "https://jsonplaceholder.typicode.com/users";
     request({
         url: url,
         json: true

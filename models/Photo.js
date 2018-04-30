@@ -16,5 +16,7 @@ var expenseSchema = new Schema({
 	thumbnailUrl: {
 		type: 'String'
 	}
+},{
+	collection: 'photo'
 });
 module.exports = mongoose.model('Photo', expenseSchema);

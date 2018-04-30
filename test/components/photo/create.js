@@ -1,69 +1,59 @@
+//https://stackoverflow.com/questions/43992427/how-to-display-a-image-selected-from-input-type-file-in-reactjs?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
 'use strict';
 import React, { Component } from 'react';
 import {
-    Table,
-    Button,
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem
+    Table, Button, Collapse,
+    Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink,
+    UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
+    Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle,
+    //Form,
+     FormGroup, Label, Input, FormText,
+    Row, Col
 } from 'reactstrap';
 import { Link } from 'react-router';
+import axios from 'axios';
+import $ from 'jquery'
 
 import ReactTable from 'react-table'
+import Loading from "../common/Loading";
 
+import Form from "./form";
 
 var helpers = require('../../../javascripts/helpers')
-import { debug } from '../../../javascripts/helpers';
+import { debug,blankUrl } from '../../../javascripts/helpers'
 
-import axios from 'axios';
-const API = 'https://jsonplaceholder.typicode.com/photos';
-
-
-export default class Create extends Component {
+export default class App extends Component {
     constructor(props) {
         super(props)
-        this.props = props
+        this.props = props;
         this.state = {
-            loading: false,
+            loading: true,
             error: null,
-            data: []
+            data: [],
         }
-        this.reactTable = null
     }
     componentDidMount(nextProps, nextState) {
-        this.setState({ loading: true });
-        axios.get(API)
-            .then(res => {
-                if (debug) {
-                    console.log('res', res);
-                }
-                const data = res.data;
-                this.setState({ data, loading: false });
-            }).catch(error => this.setState({ error, loading: false }));
+        this.setState({ loading: false })
+        var data={title:'Xiao'}
+        this.setState({ data, loading: false });
     }
-
+    
     render() {
-        const { data, pages, loading } = this.state;
-        if (this.state.error) {
-            return <p>{this.state.error.message}</p>;
-        }
+        const { data, error, loading, image,filename } = this.state;
+        if (error) { return <p>{this.state.error.message}</p>; }
+        if (loading) { return <Loading /> }
 
-        if (this.state.loading) {
-            return <p>Loading ...</p>;
-        }
         return (
-            <div style={{ height: '100%' }}>
-               CREATE
-            </div>
+            <Card body>
+                <CardTitle>Edit Photo</CardTitle>
+                <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+                <Form data={data}/>
+                    
+                <NavLink href={'/#/admin/photos'}>
+                    <Button color="secondary">Back</Button>
+                </NavLink>
+            </Card>
         )
     }
 }
-

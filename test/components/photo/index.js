@@ -15,7 +15,7 @@ import {
     DropdownMenu,
     DropdownItem
 } from 'reactstrap';
-import { Link } from 'react-router';
+
 import ReactTable from 'react-table'
 import axios from 'axios';
 
@@ -23,9 +23,8 @@ import axios from 'axios';
 var helpers = require('../../../javascripts/helpers')
 import { debug } from '../../../javascripts/helpers';
 import Loading from "../common/Loading";
-
-//const API = 'https://jsonplaceholder.typicode.com/photos';
-const API = '/photo';
+import Service from './service';
+import TableRow from './TableRow';
 
 const columns = [
     {
@@ -51,11 +50,20 @@ const columns = [
         accessor: 'id',
         id: 'click-me-button',
         Cell: (row) => {
-            return <div>
-                <NavLink href={"/#/admin/photo/" + row.original.id+"/"+row.original._id}>
-                    <Button color="warning">Edit</Button>
-                </NavLink>
-            </div>
+            return <TableRow row={row} />;
+            // return <div>
+            //     <NavLink href={"/#/admin/photo/" + row.original.id + "/" + row.original._id}>
+            //         <Button color="warning">Edit</Button>
+            //     </NavLink>
+            //     <form onSubmit={this.handleSubmit}>
+            //         <input type="submit" value="Delete" className="btn btn-danger" />
+            //         <NavLink href={"/#/admin/photo/" + row.original.id + "/" + row.original._id}>
+            //             <Button color="danger">Delete</Button>
+            //         </NavLink>
+            //     </form>
+
+
+            // </div>
         },
         className: 'text-center', style: {}
     }
@@ -72,10 +80,12 @@ export default class Index extends Component {
             data: []
         }
         this.reactTable = null
+        this.service = new Service();
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount(nextProps, nextState) {
         this.setState({ loading: true });
-        axios.get(API)
+        axios.get('/photo')
             .then(res => {
                 if (debug) {
                     console.log('res', res);
@@ -85,8 +95,13 @@ export default class Index extends Component {
             }).catch(error => this.setState({ error, loading: false }));
     }
 
+    handleSubmit(event) {
+        event.preventDefault();
+        this.service.deleteData(this.props.obj._id);
+      }
+
     render() {
-        console.log(this.props)     
+        console.log(this.props)
 
         const { data, error, loading } = this.state;
         if (error) {
@@ -96,8 +111,14 @@ export default class Index extends Component {
         if (loading) {
             return <Loading />
         }
+
+
+
         return (
             <div style={{ height: '100%' }}>
+                <NavLink href={'/#/admin/photo'}>
+                    <Button color="success">Create</Button>
+                </NavLink>
                 <ReactTable
                     showPageSizeOptions={true}
                     showPagination={true}

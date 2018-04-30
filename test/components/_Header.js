@@ -44,7 +44,6 @@ export default class Header extends React.Component {
               <NavItem><NavLink href="/#/jobs">jobs</NavLink></NavItem>
               <NavItem><NavLink href="/#/admin/photos">Photo</NavLink></NavItem>
               <NavItem><NavLink href="/#/user">user</NavLink></NavItem>
-              <NavItem><NavLink href="/#/user">user</NavLink></NavItem>
 
               <NavItem><NavLink href="/#/repos/reactjs/react-router">React Router</NavLink></NavItem>
               <NavItem><NavLink href="/#/repos/facebook/react">React</NavLink></NavItem>

@@ -9,125 +9,101 @@ import {
     Row, Col
 } from 'reactstrap';
 import { Link } from 'react-router';
+import axios from 'axios';
+import $ from 'jquery'
 
 import ReactTable from 'react-table'
 import Loading from "../common/Loading";
 
 var helpers = require('../../../javascripts/helpers')
-import { debug } from '../../../javascripts/helpers'
-
-import axios from 'axios';
-
-const API = '/photo/update/';
+import { debug,blankUrl } from '../../../javascripts/helpers'
 
 
-export default class App extends Component {
+const ParentComponent = ({props,data}) => (
+    <div>
+      <h1>Parent Component</h1>
+    
+      <h1>title:{data.title} </h1>
+    </div>
+ );
+
+
+ export default class App extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            loading: true,
-            error: null,
-            data: []
-        }
+        console.log(props);
     }
-    componentDidMount(nextProps, nextState) {
-        this.setState({loading: false})
-        axios.get(API+this.props.match.params.id)
-        .then(res => {
-            if (debug) {
-                console.log('res', res);
-            }
-            const data = res.data;
-            this.setState({ data, loading: false });
-        }).catch(error => this.setState({ error, loading: false }));
+    onImageChange(event) {
+        if (event.target.files && event.target.files[0]) {
+            console.log('event.target.files', event.target.files)
+            console.log('event.target.files[0]', event.target.files[0])
+            var filename=event.target.files[0].name
+            
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                console.log('e.target.result', e.target.result)
+                this.setState({ image: e.target.result });
+                this.setState({ filename: filename });
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }else{
+            $('#target').attr('src', blankUrl);
+       }
     }
-
+    onImageRemove() {  
+        $('#target').attr('src', blankUrl);
+        $('#inputFile').val('');
+        $('#inputFile').val(null);
+    }
     render() {
-        const { data, pages, loading } = this.state;
-        if (this.state.error) {
-            return <p>{this.state.error.message}</p>;
-        }
+        const { data, error, loading, image,filename } = this.props;
+        if (error) { return <p>{this.state.error.message}</p>; }
+        if (loading) { return <Loading /> }
+      return (
+              <Form>
+           <FormGroup row>
+                        <Label htmlFor="title" sm={2}>ID</Label>
+                        <Col sm={10}>
+                            {this.props.match.params.id} ({this.props.match.params._id})
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label htmlFor="title" sm={2}>Title</Label>
+                        <Col sm={10}>
+                            <Input name="title" id="title" placeholder="title" 
+                            value={data.title || ''} />
+                        </Col>
+                    </FormGroup>
 
-        if (loading) {
-            return <Loading />
-        }
-        return (
-            <Form>
-            <div>{data.id}</div>
-            <div>{data.title}</div>
+                    <FormGroup row>
+                        <Label htmlFor="file" sm={2}>File</Label>
+                        <Col sm={10}>
 
-            <FormGroup>
-                <Label for="exampleEmail">Email</Label>
-                <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
-            </FormGroup>
-            <FormGroup>
-                <Label for="examplePassword">Password</Label>
-                <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
-            </FormGroup>
-            <FormGroup>
-                <Label for="exampleSelect">Select</Label>
-                <Input type="select" name="select" id="exampleSelect">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </Input>
-            </FormGroup>
-            <FormGroup>
-                <Label for="exampleSelectMulti">Select Multiple</Label>
-                <Input type="select" name="selectMulti" id="exampleSelectMulti" multiple>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </Input>
-            </FormGroup>
-            <FormGroup>
-                <Label for="exampleText">Text Area</Label>
-                <Input type="textarea" name="text" id="exampleText" />
-            </FormGroup>
-            <FormGroup>
-                <Label for="exampleFile">File</Label>
-                <Input type="file" name="file" id="exampleFile" />
-                <FormText color="muted">
-                    This is some placeholder block-level help text for the above input.
-                    It's a bit lighter and easily wraps to a new line.
-  </FormText>
-            </FormGroup>
-            <FormGroup tag="fieldset">
-                <legend>Radio Buttons</legend>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                        Option one is this and that—be sure to include why it's great
-    </Label>
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="radio1" />{' '}
-                        Option two can be something else and selecting it will deselect option one
-    </Label>
-                </FormGroup>
-                <FormGroup check disabled>
-                    <Label check>
-                        <Input type="radio" name="radio1" disabled />{' '}
-                        Option three is disabled
-    </Label>
-                </FormGroup>
-            </FormGroup>
-            <FormGroup check>
-                <Label check>
-                    <Input type="checkbox" />{' '}
-                    Check me out
-  </Label>
-            </FormGroup>
-            <Button>Submit</Button>
+                            <div className="input-group">
+                                <div className="custom-file">
+                                    <input 
+                                    accept="image/*"
+                                    onChange={this.onImageChange.bind(this)}
+                                        type="file" className="custom-file-input"
+                                        id="inputFile" />
+                                    <label className="custom-file-label" htmlFor="inputFile">Choose file</label>
+                                </div>
+                                <div className="input-group-append">
+                                    <button onClick={this.onImageRemove.bind(this)} 
+                                    className="btn btn-outline-secondary" type="button">Remove</button>
+                                </div>
+                            </div>
+                            <FormText color="muted">
+                                This is some placeholder block-level help text for the above input.
+                                It's a bit lighter and easily wraps to a new line.
+                                </FormText>
+                            <img id="target" 
+                             style={{width: 200,height:200}} 
+                            src={image|| '#'} />
+                          
+                        </Col>
+                    </FormGroup>
         </Form>
-
-        )
+      )
     }
-}
-
-
+  }

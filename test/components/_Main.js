@@ -17,6 +17,7 @@ import Repo from './draft/Repo'
 import PhotoIndex from './photo/index'
 import PhotoEdit from './photo/edit'
 import PhotoCreate from './photo/create'
+import PhotoSave from './photo/save'
 
 
 const Main = () => (
@@ -34,8 +35,8 @@ const Main = () => (
 
 
     <Route path='/admin/photos' component={PhotoIndex} />
-    <Route path='/admin/photo/:id/:_id' component={PhotoEdit}  />
-    <Route path='/admin/photo' component={PhotoCreate} />
+    <Route path='/admin/photo/:id/:_id' component={PhotoSave}  />
+    <Route path='/admin/photo' component={PhotoSave} />
     
   </Switch>
 )
